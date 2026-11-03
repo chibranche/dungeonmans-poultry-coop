@@ -42,7 +42,10 @@ public sealed class PoultryMod : IMod
 			return true;
 		};
 		Events.HeroChanged += (g, hero) => CoopPanel.Reset();
-		// Screenshot scenes (developer tool, inactive for players).
+		// Screenshot scenes (developer tool, inactive for players). poultry_enter_academy goes first so the Coop shows
+		// the whole Academy flock (capture sessions never save).
+		DevCapture.Scene("poultry_enter_academy", EnterAcademy);
+		DevCapture.Scene("poultry_academy", () => { });
 		DevCapture.Scene("poultry_birds", () => CoopPanel.Open(0), CoopPanel.ForceClose);
 		DevCapture.Scene("poultry_breed", () => { CoopPanel.Open(1); CoopPanel.DevPickParents(); }, CoopPanel.ForceClose);
 		DevCapture.Scene("poultry_ascend", () => CoopPanel.Open(2), CoopPanel.ForceClose);
@@ -73,6 +76,22 @@ public sealed class PoultryMod : IMod
 				CoopPanel.Draw(g);
 			}
 		};
+	}
+
+	// Same gateway the game builds when it sends a hero home after a new overworld.
+	private static void EnterAcademy()
+	{
+		dmGame g = Dm.Game;
+		if (Dm.InAcademy || g.dungeonMans == null)
+		{
+			return;
+		}
+		dmGateway gate = (dmGateway)g.SpawnActorFromArchetype("default_gateway");
+		gate.worldArchetypeToLoad = "dmAcademy";
+		gate.areaGenerationData = "academy_data";
+		gate.saveName = "dungeonmans_academy";
+		g.currentActivatedGateway = gate;
+		g.bChangeMapThisFrame = true;
 	}
 }
 
