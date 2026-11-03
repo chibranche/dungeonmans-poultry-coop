@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>DungeonmansPoultry</AssemblyName>
+    <RootNamespace>DungeonmansPoultry</RootNamespace>
+    <Version>0.2.0</Version>
+    <GameDir Condition="'$(GameDir)' == ''">E:\SteamLibrary\steamapps\common\Dungeonmans</GameDir>
+    <!-- Dungeonmans ModKit (https://github.com/chibranche/dungeonmans-mod-toolkit), installed in the game folder. -->
+    <ModKitDir Condition="'$(ModKitDir)' == ''">$(GameDir)\ModKit</ModKitDir>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <NoWarn>CA1416</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- All provided at runtime by the game and ModKit; nothing is copied into the mod. -->
+    <Reference Include="DungeonmansModKit">
+      <HintPath>$(ModKitDir)\DungeonmansModKit.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(ModKitDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Dungeonmans">
+      <HintPath>$(GameDir)\Dungeonmans.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(GameDir)\MonoGame.Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Release staging (dist\stage) holds ModKit's example code: never compile it into the mod. -->
+    <Compile Remove="dist/**" />
+    <None Include="mod.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

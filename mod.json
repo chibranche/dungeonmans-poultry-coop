@@ -1,0 +1,8 @@
+{
+  "id": "poultry",
+  "name": "Dungeonmans Poultry",
+  "version": "0.2.0",
+  "author": "chibranche",
+  "description": "Battle Poultry: the Coop window (birds, feeding, breeding, Ascend, Pantry, Feathers), the bird status window, the breeding gene fix and Hatch shortcuts.",
+  "minModKitVersion": "0.2.0"
+}
